@@ -1,0 +1,290 @@
+<!-- Modal -->
+<div class="modal fade" id="nuevo" tabindex="-1" aria-labelledby="nuevoLabel" aria-hidden="true" data-backdrop="static"
+    data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="nuevoLabel">Nuevo Caso</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="">Documento <span class="text-danger">*</span></label>
+                        <input type="text" maxlength="13" class="form-control" id="documento">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="">Celular <span class="text-danger">*</span></label>
+                        <input type="text" maxlength="13" class="form-control" id="celular">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <label for="">Nombres del Cliente <span class="text-danger">*</span></label>
+                        <input type="text" maxlength="13" class="form-control" id="nombres">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="">Canal <span class="text-danger">*</span></label>
+                        <select class="form-control" id="canales"></select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="">Departamento <span class="text-danger">*</span></label>
+                        <select class="form-control" id="departamentos" onchange="Buscar_Asesores(); return false"></select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <label for="">Asesor <span class="text-danger">*</span></label>
+                        <select class="form-control" id="asesores"></select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <label for="">Observaciones</label>
+                        <textarea class="form-control" id="observaciones" cols="30" rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="Guardar(); return false;">Asignar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="caso_modificar" tabindex="-1" aria-labelledby="caso_modificarLabel" aria-hidden="true" data-backdrop="static"
+    data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="caso_modificarLabel">Modificar Caso</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="">Documento <span class="text-danger">*</span></label>
+                        <input type="text" maxlength="13" class="form-control" id="documento_caso">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="">Celular <span class="text-danger">*</span></label>
+                        <input type="text" maxlength="13" class="form-control" id="celular_caso">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <label for="">Nombres del Cliente <span class="text-danger">*</span></label>
+                        <input type="text" maxlength="13" class="form-control" id="nombres_caso">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="">Canal <span class="text-danger">*</span></label>
+                        <select class="form-control" id="canales_caso"></select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="">Departamento <span class="text-danger">*</span></label>
+                        <select class="form-control" id="departamentos_caso" onchange="Buscar_Asesores(); return false"></select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <label for="">Asesor <span class="text-danger">*</span></label>
+                        <select class="form-control" id="asesores_caso"></select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <label for="">Observaciones</label>
+                        <textarea class="form-control" id="observaciones_caso" cols="30" rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" onclick="return false;">Eliminar</button>
+                <button type="button" class="btn btn-primary" onclick="return false;">Modificar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 text-right">
+        <a href="#" class="btn btn-sm btn-secondary" onclick="Buscar(); return false;">Actualizar</a>
+        <a href="#" class="btn btn-sm btn-success" onclick="Nuevo_Caso(); return false;">Nuevo</a>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <table class="table table-sm table-hover table-striped">
+            <thead>
+                <tr style="font-size: 15px;">
+                    <th scope="col" style="width: 20px;">#</th>
+                    <th scope="col" style="width: 200px;">Asesor Asignado</th>
+                    <th scope="col" style="width: 40px;">Documento</th>
+                    <th scope="col">Nombres</th>
+                    <th scope="col" style="width: 50px;">Celular</th>
+                    <th scope="col" style="width: 50px;">Canal</th>
+                    <th scope="col" style="width: 150px;">Asignado el</th>
+                    <th scope="col" style="width: 50px;">Estado</th>
+                </tr>
+            </thead>
+            <tbody id="listado">
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(e => {
+        Buscar()
+    })
+
+    function Buscar() {
+        Cargando("Cargando información...")
+        const buscador = document.getElementById("buscador_general").value
+        Obtener_API(null, 'canales/asignacion?buscador=' + buscador, datos => {
+            if (datos.estado) {
+                var lista = ''
+                datos.consulta.forEach((element, index) => {
+                    lista += '<tr style="font-size: 13px;">'
+                    lista += '<th scope="row">' + (index + 1) + '</th>'
+                    lista += '<td>' + element.nombres_asesor + '</td>'
+                    lista += '<td>' + element.documento + '</td>'
+                    lista += '<td><a href="#" onclick="Buscar_Caso('+element.id_caso+'); return false;">' + element.nombres_cliente + '</a></td>'
+                    lista += '<td>' + element.celular + '</td>'
+                    lista += '<td><span class="badge badge-primary">' + element.canal + '</span></td>'
+                    lista += '<td>' + element.fecha_alta + '</td>'
+                    lista += '<td><span class="badge badge-info">Asignado</span></td>'
+                    lista += '</tr>'
+                });
+                $("#listado").html(lista)
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: datos.error
+                })
+            }
+            Cargando("")
+        })
+    }
+
+    function Nuevo_Caso(mostrar = true) {
+        Obtener_API(null, 'canales/informacion', datos => {
+            if (datos.estado){
+                document.getElementById("documento").value = ""
+                document.getElementById("celular").value = ""
+                document.getElementById("nombres").value = ""
+                $("#asesores").html("")
+                document.getElementById("observaciones").value = ""
+
+                var lista = '<option value="0">Seleccione un departamento</option>'
+                datos.departamentos.forEach(element => {
+                    lista += '<option value="'+element.id_departamento+'">'+element.departamento+'</option>'
+                });
+                $("#departamentos").html(lista)
+
+                var lista = ''
+                datos.canales.forEach(element => {
+                    lista += '<option value="'+element.id_canal+'">'+element.canal+'</option>'
+                });
+                $("#canales").html(lista)
+                
+                if (mostrar){
+                    $("#nuevo").modal('show')
+                }else{
+                    $("#nuevo").modal('hide')
+                }
+                
+            }else{
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: datos.error
+                })
+            }
+        })
+    }
+
+    function Buscar_Asesores(){
+        const id_departamento = document.getElementById("departamentos").value
+        Obtener_API(null, 'canales/asesores/'+id_departamento, datos => {
+            if (datos.estado){
+                var lista = ''
+                datos.asesores.forEach(element => {
+                    lista += '<option value="'+element.id_usuario+'">'+element.nombres+'</option>'
+                });
+                $("#asesores").html(lista)
+            }else{
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: datos.error
+                })
+            }
+        }) 
+    }
+
+    function Guardar(){
+        var campos = {
+            documento: document.getElementById("documento").value,
+            celular: document.getElementById("celular").value,
+            nombres: document.getElementById("nombres").value,
+            canal: document.getElementById("canales").value,
+            departamento: document.getElementById("departamentos").value,
+            asesor: document.getElementById("asesores").value,
+            observaciones: document.getElementById("observaciones").value
+        }
+        Enviar_API(JSON.stringify(campos), 'canales/asignacion', datos => {
+            if (datos.estado){
+                Nuevo_Caso(false)
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Excelente!',
+                    text: "El formulario se ha registrado satisfactoriamente."
+                })
+                Buscar()
+            }else{
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: datos.error
+                })
+            }
+        })
+    }
+
+    function Buscar_Caso(id_caso){
+        Obtener_API(null, 'canales/asignacion/'+id_caso, datos => {
+            if (datos.estado){
+                const caso = datos.consulta 
+                document.getElementById("documento_caso").value = caso.documento
+                document.getElementById("nombres_caso").value = caso.nombres_cliente
+                document.getElementById("celular_caso").value = caso.celular
+                document.getElementById("observaciones_caso").value = caso.observaciones
+
+                $("#caso_modificar").modal('show')
+            }else{
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: datos.error
+                })
+            }
+        })
+    }
+
+</script>

@@ -1,0 +1,90 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-6">
+                <input type="text" class="form-control">
+            </div>
+            <div class="col-md-4">                
+                <select class="form-control" id="">
+                    <option value="-1" selected>Todas</option>
+                    <option value="1">Pendientes</option>
+                    <option value="2">Confirmadas</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 text-right">
+        <a href="#" class="btn btn-primary" onclick="Buscar(); return false;">Buscar</a>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <table class="table table-sm table-hover table-striped">
+            <thead>
+                <tr style="font-size: 13px;">
+                    <th scope="col" style="width: 5px;">#</th>
+                    <th scope="col" style="width: 90px;">Fecha Venta</th>
+                    <th scope="col">Apellidos y Nombres</th>                    
+                    <th scope="col" style="width: 80px; text-align: right;">Pagado</th>
+                    <th scope="col" style="width: 80px; text-align: right;">Saldo</th>
+                    <th scope="col" style="width: 80px; text-align: right;">Comisi&oacute;n</th>
+                    <th scope="col" style="width: 80px;">Estado</th>
+                    <th scope="col">Observaciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="font-size: 13px;">
+                    <th scope="row">1</th>
+                    <td>2022-01-01</td>
+                    <td>
+                        MINO FLORES CARLOS ENRIQUE
+                        <span class="badge badge-light ml-2">ID CLIENTE 12345</span>
+                    </td>
+                    <td style="text-align: right;">1000.00</td>
+                    <td style="text-align: right;">1000.00</td>
+                    <td style="text-align: right;">1000.00</td>
+                    <td><span class="badge badge-success" style="display: block;">Procesada</span></td>
+                    <td><input type="text" class="form-control form-control-sm" placeholder="Agrege informaci&oacute;n adicional" style="font-size: 11px;"></td>
+                </tr>   
+                <tr style="font-size: 13px;">
+                    <th scope="row">1</th>
+                    <td>2022-01-01</td>
+                    <td>
+                        MINO FLORES CARLOS ENRIQUE
+                        <span class="badge badge-light ml-2">ID CLIENTE 12345</span>
+                    </td>
+                    <td style="text-align: right;">1000.00</td>
+                    <td style="text-align: right;">1000.00</td>
+                    <td style="text-align: right;">1000.00</td>
+                    <td><span class="badge badge-warning" style="display: block;">Pendiente</span></td>
+                    <td><input type="text" class="form-control form-control-sm" placeholder="Agrege informaci&oacute;n adicional" style="font-size: 11px;"></td>
+                </tr>   
+                
+                <tr style="font-size: 13px; font-weight: bold;">
+                    <th scope="row">Totales</th>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align: right;">1000.00</td>
+                    <td style="text-align: right;">1000.00</td>
+                    <td style="text-align: right;">1000.00</td>
+                    <td></td>
+                    <td></td>
+                </tr>   
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+     $(document).ready(e => {
+        Buscar()
+    })
+
+    function Buscar(){
+        Cargando("Cargando ventas del asesor...")      
+        setTimeout(() => {
+            Cargando()
+        }, 3000);
+    }
+</script>

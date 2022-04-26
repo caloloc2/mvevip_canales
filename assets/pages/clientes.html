@@ -1,0 +1,699 @@
+<!-- Modal -->
+<div class="modal fade" id="extension" tabindex="-1" data-backdrop="static" data-keyboard="false"
+    aria-labelledby="extensionLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="extensionLabel">Asignaci&oacute;n de Extensi&oacute;n</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label for="">Extensi&oacute;n #</label>
+                        <input type="text" class="form-control" placeholder="Por ejemplo: 301" id="terminal_extension">
+                        <small id="emailHelp" class="form-text text-muted">Lo puedes ver en la aplicaci&oacute;n
+                            SIP.</small>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success"
+                    onclick="Asignar_Extension(); return false;">Establecer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="llamada_programada" tabindex="-1" data-backdrop="static" data-keyboard="false"
+    aria-labelledby="llamada_programadaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="llamada_programadaLabel">Llamada Programada</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <h4>Se program&oacute; una llamada al cliente</h4>
+                        <h4>XXXXXX XXXXXX XXXXXXX XXXXXXX</h4>
+                        <h4>el d&iacute;a de hoy a las <span>00:00:00</span></h4>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Continuar Llamadas</button>
+                <button type="button" class="btn btn-success" onclick="return false;">Llamar Ahora</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="placetopay" tabindex="-1" data-backdrop="static" data-keyboard="false"
+    aria-labelledby="placetopayLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="placetopayLabel">Generar Pago</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <label for="">Tipo de Pago</label>
+                        <select class="form-control" id="tipo_pago">
+                            <option value="1" selected> Paquete Nuevo</option>
+                            <option value="2"> Ampliacion de tiempo</option>
+                            <option value="3"> Cambio Titular</option>
+                            <option value="4"> Cambio destino INT</option>
+                            <option value="5"> Cambio destino NAC</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-12">
+                        <label for="">Valor a Pagar</label>
+                        <input type="number" step="0.01" value="0" class="form-control" id="valor_pago">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success" onclick="Link_Pago(); return false;">Pagar Ahora</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 text-left">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="input-group mb-3">
+                    <select class="form-control" id="listado_bancos" onchange="Cambio_Banco(); return false;"></select>
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon2" style="cursor: pointer;"
+                            onclick="Cargando_Informacion_Call_Center(); return false;"><span
+                                class="icon-refresh"></span></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="col-md-8 text-right">
+        
+        
+        <a href="#" class="btn btn-light" disabled onclick="return false;" id="faltantes" title="Registros Nuevos por Asignar">&nbsp;</a>
+        <a href="#" class="btn btn-light" disabled onclick="return false;" id="cronometro_llamadas"
+            title="Tiempo de Llamadas">00:00:00</a>
+        <a href="#" class="btn btn-success" disabled onclick="Guardar_Cliente(); return false;"
+            title="Guardar Información del Cliente">Guardar Información de Cliente</a>
+
+        <a href="#" class="btn btn-success" disabled onclick="Iniciar_Llamada(); return false;" style="display: none;" id="btn_iniciar_llamada" title="Iniciar Llamada"><span
+                class="icon-phone_enabled"></span></a>
+        <a href="http://192.168.0.40/asteMKV/llamada.php?sip=301" target="_blank" style="display: none;" id="btn_error_sip" class="btn btn-danger" id=""
+            title="Desbloquear Llamada"><span class="icon-phone_disabled"></span></a>
+    </div>
+</div>
+
+<div class="row" style="display: none;" id="notificacion_mensajes">
+    <div class="col-md-12">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert" id="mensaje_color">
+            <p id="mensaje" style="margin: 0; padding: 0;"></p>
+
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-2 mb-4">
+    <div class="col-md-12">
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="pills-actual-tab" data-toggle="pill" style="font-size: 13px;"
+                    href="#pills-actual" onclick="return false;" role="tab" aria-controls="pills-actual"
+                    aria-selected="true">Cliente Asignado</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="pills-ventas-tab" data-toggle="pill" style="font-size: 13px;"
+                    href="#pills-ventas" onclick="return false;" role="tab" aria-controls="pills-ventas"
+                    aria-selected="false">Ventas Realizadas <span class="badge badge-light ml-2"
+                        id="contador_ventas">0</span></a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="pills-interesados-tab" data-toggle="pill" style="font-size: 13px;"
+                    href="#pills-interesados" onclick="return false;" role="tab" aria-controls="pills-interesados"
+                    aria-selected="false">Clientes
+                    Interesados <span class="badge badge-light ml-2" id="contador_interesados">0</span></a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="pills-mastarde-tab" data-toggle="pill" style="font-size: 13px;"
+                    href="#pills-mastarde" onclick="return false;" role="tab" aria-controls="pills-mastarde"
+                    aria-selected="false">Llamar
+                    m&aacute;s tarde <span class="badge badge-light ml-2" id="contador_mas_tarde">0</span></a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="pills-apagado-tab" data-toggle="pill" style="font-size: 13px;"
+                    href="#pills-apagado" onclick="return false;" role="tab" aria-controls="pills-apagado"
+                    aria-selected="false">Apagado <span class="badge badge-light ml-2"
+                        id="contador_apagado">0</span></a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="pills-nocontesta-tab" data-toggle="pill" style="font-size: 13px;"
+                    href="#pills-nocontesta" onclick="return false;" role="tab" aria-controls="pills-nocontesta"
+                    aria-selected="false">No
+                    Contesta <span class="badge badge-light ml-2" id="contador_no_contesta">0</span></a>
+            </li>
+
+        </ul>
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-actual" role="tabpanel" aria-labelledby="pills-actual-tab">
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label for="">Documento</label>
+                                <input type="text" class="form-control" id="documento_cliente" disabled>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label for="">Apellidos y Nombres</label>
+                                <input type="text" class="form-control" id="nombres_cliente" disabled>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="">Ciudad</label>
+                                <input type="text" class="form-control" id="ciudad_cliente" disabled>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="">Tel&eacute;fono</label>
+                                <input type="text" class="form-control" id="telefono_cliente" disabled>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label for="">Direcci&oacute;n</label>
+                                <input type="text" class="form-control" id="direccion_cliente" disabled>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label for="">Correo Electr&oacute;nico</label>
+                                <input type="text" class="form-control" id="correo_cliente" disabled>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-md-12 text-right">
+                                <a href="#" class="btn btn-secondary" id="btn_actualizar_info" style="display: none;"
+                                    onclick="Actualizar_Cliente(); return false;">Actualizar Informaci&oacute;n</a>
+                                <a href="#" class="btn btn-success" id="btn_volver_llamar" style="display: none;"
+                                    onclick="Llamar(); return false;">Volver a Llamar</a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-8">
+
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label for="">Estado</label>
+                                        <select class="form-control" id="estado_llamada_cliente"
+                                            onchange="Deshabilitar(); return false;"></select>
+                                    </div>
+
+                                    <div class="form-group col-md-3">
+                                        <label for="">Fecha</label>
+                                        <input type="date" class="form-control" id="fecha_llamado_cliente">
+                                    </div>
+
+                                    <div class="form-group col-md-3">
+                                        <label for="">Hora</label>
+                                        <input type="time" class="form-control" id="hora_llamado_cliente"
+                                            value="00:00:00">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2">
+                                    <div class="col-md-12" id="listado_paquetes">
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <label for="">Observaciones</label>
+                                        <textarea class="form-control" id="observaciones_cliente" cols="10"
+                                            rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-md-12">
+                                <table class="table table-sm tabl-hover table-stripped">
+                                    <thead>
+                                        <tr style="font-size: 13px; color: #555;">
+                                            <th scope="col">Acci&oacute;n</th>
+                                            <th scope="col" style="width: 150px;">Fecha y Hora</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="logs"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- <div class="col-md-3">
+                        <p>chat</p>
+                    </div> -->
+                </div>
+
+            </div>
+            <div class="tab-pane fade" id="pills-ventas" role="tabpanel" aria-labelledby="pills-ventas-tab">
+
+                <table class="table table-sm table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombres Completos</th>
+                            <th scope="col" style="width: 80px;">Intentos</th>
+                            <th scope="col" style="width: 150px;">&Uacute;ltima Llamada</th>
+                            <th scope="col" style="width: 80px;">Duraci&oacute;n</th>
+                            <th scope="col">Observaciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listado_ventas">
+
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="tab-pane fade" id="pills-interesados" role="tabpanel" aria-labelledby="pills-interesados-tab">
+
+                <table class="table table-sm table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombres Completos</th>
+                            <th scope="col" style="width: 80px;">Intentos</th>
+                            <th scope="col" style="width: 150px;">&Uacute;ltima Llamada</th>
+                            <th scope="col" style="width: 80px;">Duraci&oacute;n</th>
+                            <th scope="col">Observaciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listado_interesados">
+
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="tab-pane fade" id="pills-mastarde" role="tabpanel" aria-labelledby="pills-mastarde-tab">
+
+                <table class="table table-sm table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombres Completos</th>
+                            <th scope="col" style="width: 80px;">Intentos</th>
+                            <th scope="col" style="width: 150px;">&Uacute;ltima Llamada</th>
+                            <th scope="col" style="width: 80px;">Duraci&oacute;n</th>
+                            <th scope="col" style="width: 135px;">Proxima Llamada</th>
+                            <th scope="col">Observaciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listado_mas_tarde">
+
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="tab-pane fade" id="pills-apagado" role="tabpanel" aria-labelledby="pills-apagado-tab">
+
+                <table class="table table-sm table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombres Completos</th>
+                            <th scope="col" style="width: 80px;">Intentos</th>
+                            <th scope="col" style="width: 150px;">&Uacute;ltima Llamada</th>
+                            <th scope="col" style="width: 80px;">Duraci&oacute;n</th>
+                            <th scope="col">Observaciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listado_apagado">
+
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="tab-pane fade" id="pills-nocontesta" role="tabpanel" aria-labelledby="pills-nocontesta-tab">
+
+                <table class="table table-sm table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombres Completos</th>
+                            <th scope="col" style="width: 80px;">Intentos</th>
+                            <th scope="col" style="width: 150px;">&Uacute;ltima Llamada</th>
+                            <th scope="col" style="width: 80px;">Duraci&oacute;n</th>
+                            <th scope="col">Observaciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listado_no_contesta">
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<a href="#" id="llamada" style="display: none;">Llamar</a>
+
+<div id="chat" style="display: none;">
+    <div class="contenedor">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="cabecera">
+            <p><strong id="nombre_cliente_chat">NOMBRE DEL CLIENTE</strong></p>
+
+        </div>
+        <div class="mensajes">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <span class="badge badge-pill badge-info">Cargando mensajes...</span>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <span class="badge badge-pill badge-secondary" style="font-size: 10px; font-weight: 300;">Inicio de
+                        conversaci&oacute;n el 2022-01-02 a las 12:45:00</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-left" style="padding: 1em 1em;">
+                    <p class="text-success" style="padding: 0; margin: 0; font-size: 13px;">Lorem ipsum dolor sit amet
+                        consectetur, adipisicing elit. Incidunt dolor modi optio pariatur!</p>
+                    <span class="badge badge-pill badge-light" style="font-size: 10px; font-weight: 300;">Recibido a las
+                        12:53</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <p class="text-secondary" style="padding: 0; margin: 0; font-size: 13px;">Lorem !</p>
+                    <span class="badge badge-pill badge-success" style="font-size: 10px; font-weight: 300;">Enviado a
+                        las 12:53</span>
+                </div>
+            </div>
+        </div>
+        <div class="pie">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm" placeholder="Escriba aqui...">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon2"><span class="icon-add_comment"></span></span>
+                            <span class="input-group-text" id="basic-addon2"><span class="icon-linked_camera"></span></span>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col-md-3">
+                    <a href="#" onclick="return false;" class="btn btn-sm btn-success"></a>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<a href="#" id="llamada" style="display: none;">Llamar</a>
+
+<script>
+    var estados = [];
+    var llamada_en_proceso = false
+
+    $(document).ready(e => {
+        Cargando_Informacion_Call_Center(true)
+        Verificacion_Extension()
+    })
+
+    function Verificacion_Extension(){
+        setInterval(() => {
+            Verificar_Extension(301, datos => {
+                $("#btn_error_sip").hide()
+                $("#btn_iniciar_llamada").hide()
+                if (datos.estado){
+                    const extension = datos.extension
+                    const number = extension.number
+                    const state = extension.state
+                    
+                    switch (state) {
+                        case "INUSE":
+                            llamada_en_proceso = true
+                            $("#btn_error_sip").hide()
+                            $("#btn_iniciar_llamada").hide()
+                            break;
+                        case "BUSY":
+                            llamada_en_proceso = true
+                            $("#btn_error_sip").hide()
+                            $("#btn_iniciar_llamada").hide()
+                            break;
+                        case "NOT_INUSE":
+                            clearInterval(cronometro_llamadas)
+                            segundos_x_llamada = 0
+                            llamada_en_proceso = false
+                            $("#btn_iniciar_llamada").show()
+                            break;
+                        case "UNAVAILABLE":
+                            clearInterval(cronometro_llamadas)
+                            segundos_x_llamada = 0
+                            llamada_en_proceso = true
+                            $("#btn_error_sip").hide()
+                            $("#btn_iniciar_llamada").hide()
+                            break;
+                        default:
+                            clearInterval(cronometro_llamadas)
+                            segundos_x_llamada = 0
+                            llamada_en_proceso = true
+                            $("#btn_error_sip").hide()
+                            $("#btn_iniciar_llamada").hide()
+                            break;
+                    }
+                }else{
+                    $("#btn_error_sip").show()
+                }
+            }, true)
+        }, 2000);
+    }
+
+    function Cargando_Informacion_Call_Center(asignar = false) {
+        Cargando("Cargando información del call center...")
+        estados = []
+        Obtener_API(null, 'call/informacion', datos => {
+            if (datos.estado) {
+                localStorage.setItem("id_lista", 0)
+
+                var lista = ""
+                datos.bancos.forEach(element => {
+                    lista += "<option value='" + element.id + "'>" + element.descripcion + "</option>"
+                });
+                $("#listado_bancos").html(lista)
+
+                var lista = ""
+                estados = datos.estados
+                datos.estados.forEach(element => {
+                    lista += "<option value='" + element.id + "'>" + element.descripcion + "</option>"
+                });
+                $("#estado_llamada_cliente").html(lista)
+
+                if (asignar){
+                    Asignar_Cliente()
+                }
+                
+                Resumen()
+
+                Cargando("")
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: datos.error
+                })
+            }
+        })
+    }
+
+    function Iniciar_Llamada(){
+        if (!llamada_en_proceso){
+            $("#llamada")[0].click()
+            Iniciar_Cronometro_Llamada("#cronometro_llamadas")
+        }else{
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: "Existe una llamada en proceso con el número de extensión actual."
+            })
+        }
+    }
+
+    function Cambio_Banco(){
+        Resumen()
+        Asignar_Cliente()
+    }
+
+    function Resumen(){
+        const banco = document.getElementById("listado_bancos").value
+        Obtener_API(null, 'call/resumen/' + banco, datos => {
+            if (datos.estado) {
+                $("#faltantes").removeClass("btn-light")
+                $("#faltantes").removeClass("btn-warning")
+                $("#faltantes").removeClass("btn-danger")
+                
+                $("#faltantes").addClass("btn-"+datos.faltante.color)
+                $("#faltantes").html(datos.faltante.mensaje)
+            } else {
+                Campos()
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: datos.error
+                })
+            }
+        })
+    }
+
+    function Asignar_Cliente() {
+        Cargando("Asignando nuevo contacto...")
+        const banco = document.getElementById("listado_bancos").value
+        Obtener_API(null, 'call/basecliente/' + banco, datos => {
+            if (datos.estado) {
+                const cliente = datos.consulta
+
+                document.getElementById("documento_cliente").value = cliente.documento
+                document.getElementById("nombres_cliente").value = cliente.nombres
+                document.getElementById("ciudad_cliente").value = cliente.ciudad
+                document.getElementById("telefono_cliente").value = cliente.telefono
+                document.getElementById("direccion_cliente").value = cliente.direccion
+                document.getElementById("correo_cliente").value = cliente.correo
+                document.getElementById("observaciones_cliente").value = cliente.observaciones
+
+                $("#llamada").attr("href", "SIP:" + cliente.telefono)
+
+                var fecha_actual = new Date()
+                
+                document.getElementById('estado_llamada_cliente').value = 1
+                document.getElementById('fecha_llamado_cliente').valueAsDate = fecha_actual
+                document.getElementById("hora_llamado_cliente").valueAsTime = "15:24:24" // (fecha_actual.getHours()+2)+":"+fecha_actual.getMinutes()+":"+fecha_actual.getSeconds();
+                
+                if (cliente.tipo == "sin_dato"){
+                    localStorage.setItem("id_lista", 0)
+                    Mensaje("No existen más registros a asignar", "danger")
+                    Campos()
+                }else{
+                    Mensaje("")
+                    localStorage.setItem("id_lista", cliente.id_lista)
+                    $("#nombre_cliente_chat").html(cliente.nombres)
+
+                    Campos(false)
+
+                    setTimeout(() => {
+                        Iniciar_Llamada()
+                    }, 2500);
+                }
+
+            } else {
+                Campos()
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: datos.error
+                })
+            }
+            Cargando("")
+        })
+    }
+
+    function Deshabilitar() {
+        const opcion = document.getElementById("estado_llamada_cliente").value
+
+        document.getElementById("hora_llamado_cliente").value = "00:00:00"
+        document.getElementById('fecha_llamado_cliente').valueAsDate = new Date();
+
+        if (opcion == 1) {
+            $("#hora_llamado_cliente").prop("disabled", false);
+            $("#fecha_llamado_cliente").prop("disabled", false);
+        } else {
+            $("#hora_llamado_cliente").prop("disabled", true);
+            $("#fecha_llamado_cliente").prop("disabled", true);
+        }
+    }
+
+    function Campos(estado = true){
+        $("#documento_cliente").prop("disabled", estado);
+        $("#nombres_cliente").prop("disabled", estado);
+        $("#ciudad_cliente").prop("disabled", estado);
+        $("#telefono_cliente").prop("disabled", estado);
+        $("#direccion_cliente").prop("disabled", estado);
+        $("#correo_cliente").prop("disabled", estado);
+        $("#observaciones_cliente").prop("disabled", estado);
+    }
+
+    function Guardar_Cliente(){
+        var campos = {
+            documento: document.getElementById("documento_cliente").value,
+            nombres: document.getElementById("nombres_cliente").value,
+            ciudad: document.getElementById("ciudad_cliente").value,
+            direccion: document.getElementById("direccion_cliente").value,
+            correo: document.getElementById("correo_cliente").value,
+            estado : document.getElementById("estado_llamada_cliente").value,
+            fecha : document.getElementById("fecha_llamado_cliente").value,
+            hora : document.getElementById("hora_llamado_cliente").value,
+            observaciones : document.getElementById("observaciones_cliente").value
+        }
+        const id_lista = localStorage.getItem("id_lista")
+        Modificar_API(campos, 'call/clientes/'+id_lista, datos => {
+            if (datos.estado){
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Excelente',
+                    text: "La información del cliente fue guardada exitosamente"
+                })
+                Cambio_Banco()
+            }else{
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: datos.error
+                })
+            }
+        })
+    }
+
+
+
+</script>
